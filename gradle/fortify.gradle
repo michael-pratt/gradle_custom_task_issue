@@ -1,0 +1,7 @@
+apply plugin: "com.example.fortify"
+
+fortify {
+  server {
+    task.dependsOn(":installDist")
+  }
+}

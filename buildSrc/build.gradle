@@ -1,0 +1,13 @@
+apply plugin: 'groovy'
+
+repositories {
+  mavenCentral()
+  gradlePluginPortal()
+}
+
+dependencies {
+  implementation gradleApi()
+  implementation("com.sun.xml.bind:jaxb-xjc:2.3.0.1")
+  implementation("com.sun.xml.ws:jaxws-rt:2.3.7")
+  implementation("com.sun.xml.ws:jaxws-tools:2.3.7")
+}

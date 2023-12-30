@@ -1,0 +1,16 @@
+apply plugin: "com.example.xjc"
+
+xjc {
+    serviceA {
+        contents{
+            from("ServiceA") {
+                include "ServiceA.xsd"
+            }
+            from("ServiceB") {
+                include "ServiceA.xsd"
+            }
+        }
+        main = "ServiceA.xsd"
+        sourceDirs = ["ServiceA","ServiceB"]
+    }
+}
