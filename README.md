@@ -3,7 +3,7 @@ This repo contains 2 custom Gradle plugins:
 - Fortify
 - XJC
 
-The XJC plugin contains a custom task named `XkcTask`, which extends `SourceTask`, that generates Java code from XSD files. For brevitiy, the task is a no-op to demonstrate a certain behavior.
+The XJC plugin contains a custom task named `XjcTask`, which extends `SourceTask`, that generates Java code from XSD files. For brevitiy, the task is a no-op to demonstrate a certain behavior.
 
 The tl;dr of the behavior is that the _Fortify_ plugin is affecting the behavior of the _XJC_ plugin and I'm not sure why.
 
