@@ -12,6 +12,8 @@ Execution failed for task ':tasks'.
    > DefaultTaskContainer#create(String, Class, Action) on task set cannot be executed in the current context.
 ```
 
+This problem does not occure when the Fortify plugin is disabled in `build.gradle`.
+
 The plugin does hook into the `JavaCompile` task for all subprojects, but it's not clear why this causes the above error.
 
 Note that the Fortify plugin uses `configureEach`. When switched to `whenTaskAdded` the above problem goes away, but it causes other issues in the project related to the custom XJC plugin.
