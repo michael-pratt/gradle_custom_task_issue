@@ -1,40 +1,17 @@
-This repo contains 2 custom Gradle plugins:
-
-- Fortify
-- XJC
-
-The XJC plugin contains a custom task named `XjcTask`, which extends `SourceTask`, that generates Java code from XSD files. For brevitiy, the task is a no-op to demonstrate a certain behavior.
-
-The tl;dr of the behavior is that the _Fortify_ plugin is affecting the behavior of the _XJC_ plugin and I'm not sure why.
-
-When you run the following task as-is in the repo, the output should be:
+Trying to figure out why the Fortify custom plugin causes the `java-module-1` subproject to break with the following error:
 
 ```
-./gradlew :schemas:serviceAXjc
+./gradlew tasks
+> Task :tasks FAILED
 
-> Configure project :schemas
-XjcTask constructor: xjc.sourceDirs is null
+FAILURE: Build failed with an exception.
 
-> Task :schemas:serviceAXjc
-XjcTask doStuff: xjc.sourceDirs is [ServiceA, ServiceB]
-
-BUILD SUCCESSFUL in 1s
-4 actionable tasks: 4 executed
+* What went wrong:
+Execution failed for task ':tasks'.
+> Could not create task ':java-module-1:compileJava'.
+   > DefaultTaskContainer#create(String, Class, Action) on task set cannot be executed in the current context.
 ```
 
-Notice the `null` in the output from the XJC task. When you edit `build.gradle` and disable the _Fortify_ plugin, the output is as follows:
+The plugin does hook into the `JavaCompile` task for all subprojects, but it's not clear why this causes the above error.
 
-```
-./gradlew :schemas:serviceAXjc
-XjcTask constructor: xjc.sourceDirs is [ServiceA, ServiceB]
-
-> Task :schemas:serviceAXjc
-XjcTask doStuff: xjc.sourceDirs is [ServiceA, ServiceB]
-
-BUILD SUCCESSFUL in 314ms
-4 actionable tasks: 1 executed, 3 up-to-date
-```
-
-The `null` output is gone, and the `XjcTask` has correctly output the field from the task instead.
-
-The question is: why is the `sourceDirs` field `null` when the _Fortify_ plugin is enabled, but not so when that plugin is disabled?
+Note that the Fortify plugin uses `configureEach`. When switched to `whenTaskAdded` the above problem goes away, but it causes other issues in the project related to the custom XJC plugin.
