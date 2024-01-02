@@ -55,7 +55,7 @@ class FortifyPlugin implements Plugin<Project> {
         // that the Java task did work and has source files.
         // Make sure that the scan task depends on this compile task.
         project.allprojects.each { subproject ->
-            subproject.tasks.whenTaskAdded { subprojectAddedTask ->
+            subproject.tasks.configureEach { subprojectAddedTask ->
 
                 if(subprojectAddedTask.name.equals("compileJava") &&
                     subprojectAddedTask instanceof JavaCompile) {
